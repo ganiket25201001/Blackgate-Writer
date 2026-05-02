@@ -9,3 +9,7 @@ base64 = "0.21"
 
 [build-dependencies]
 tauri-build = { version = "1.4.0" }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
