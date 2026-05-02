@@ -81,28 +81,7 @@ export default function EditorProvider({ children }: { children: React.ReactNode
       SuperscriptExt,
       FontSizeAndFamily,
     ],
-    content: `
-      <h2>1. Plain text:</h2>
-      <p>Hello it’s the boss testing</p>
-      <h2>2. Bold:</h2>
-      <p>This word is <strong>bold</strong> and should stay <strong>bold</strong> only for that word.</p>
-      <h2>3. Italic:</h2>
-      <p>This word is <em>italic</em> and should stay <em>italic</em> only for that word.</p>
-      <h2>4. Underline:</h2>
-      <p>This word is <u>underlined</u> and should stay <u>underlined</u> only for that word.</p>
-      <h2>5. Mixed formatting:</h2>
-      <p>The <strong>quick</strong> brown <em>fox</em> jumps <u>over</u> the lazy dog.</p>
-      <h2>6. Nested formatting:</h2>
-      <p><strong>This is bold and <em>nested italic</em> inside bold text.</strong></p>
-      <h2>7. Character-level formatting:</h2>
-      <p>H<strong>e</strong><em>l</em><u>l</u>o</p>
-      <h2>8. Case Change Test:</h2>
-      <p>Hello it’s the boss testing</p>
-      <p><strong>Hello it’s the boss testing</strong></p>
-      <p><em>Hello it’s the boss testing</em></p>
-      <p><u>Hello it’s the boss testing</u></p>
-      <p>H<strong>e</strong><em>l</em><u>l</u>o</p>
-    `,
+    content: '',
     onSelectionUpdate: ({ editor }) => {
       const textStyle = editor.getAttributes('textStyle') || {}
       const colorAttr = editor.getAttributes('color') || {}

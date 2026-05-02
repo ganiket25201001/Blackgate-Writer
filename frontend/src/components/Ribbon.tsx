@@ -103,7 +103,7 @@ function ChangeCaseDropdown(){
       let newText = text
       if (type === 'lower') newText = text.toLowerCase()
       else if (type === 'upper') newText = text.toUpperCase()
-      else if (type === 'capitalize') newText = text.replace(/\b\w/g, c => c.toUpperCase())
+      else if (type === 'capitalize') newText = text.replace(/\b\w/g, (c: string) => c.toUpperCase())
       
       tr.replaceWith(start, end, state.schema.text(newText, node.marks))
     }
