@@ -53,8 +53,8 @@ export default function RightSidebar(){
               <RibbonButton title="Strikethrough" active={state.strike} onClick={()=>{ if(editor) editor.chain().focus().toggleStrike().run(); toggleStyle('strike') }}>S</RibbonButton>
               <RibbonColorPicker label="Text color" color={state.textColor} onChange={(c)=>{ dispatch({type:'set', payload:{textColor:c}}); if(editor) editor.chain().focus().setColor(c).run() }} />
               <RibbonColorPicker label="Highlight" color={state.highlightColor} onChange={(c)=>{ dispatch({type:'set', payload:{highlightColor:c}}); if(editor) editor.chain().focus().toggleHighlight({ color: c }).run() }} />
-            </SidebarSection>
-          )}
+            </div>
+          </SidebarSection>
 
           <SidebarSection title="Paragraph">
             <div className="flex gap-2">

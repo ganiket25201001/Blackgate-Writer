@@ -1,12 +1,12 @@
 import React from 'react'
-import { appVersion } from '@tauri-apps/api/app'
+import { getVersion } from '@tauri-apps/api/app'
 import { useState, useEffect } from 'react'
 
 export default function AboutWindow(){
   const [version, setVersion] = useState('0.1.0')
 
   useEffect(()=>{
-    appVersion().then(v=>setVersion(v)).catch(()=>{})
+    getVersion().then(v=>setVersion(v)).catch(()=>{})
   },[])
 
   return (
