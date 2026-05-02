@@ -82,30 +82,26 @@ export default function EditorProvider({ children }: { children: React.ReactNode
       FontSizeAndFamily,
     ],
     content: `
-      <h1>Business Proposal</h1>
-      <p><em>Prepared for: Acme Corporation</em></p>
-      <p><em>Date: May 24, 2024</em></p>
-      <h2>1. Executive Summary</h2>
-      <p>This proposal outlines a strategic partnership between Blackgate Solutions and Acme Corporation to drive innovation, increase operational efficiency, and deliver measurable results. Our approach combines industry expertise with innovative technology to help Acme Corporation achieve its business objectives.</p>
-      <h2>2. Objectives</h2>
-      <p>The primary objectives of this partnership are:</p>
-      <ul>
-        <li>Increase operational efficiency by streamlining key business processes.</li>
-        <li>Reduce costs through automation and optimization.</li>
-        <li>Enhance customer satisfaction by improving service delivery.</li>
-        <li>Drive growth through data-driven decision making.</li>
-      </ul>
-      <h2>3. Proposed Solution</h2>
-      <p>Blackgate Solutions will implement a tailored suite of services designed to address Acme Corporation's unique challenges and goals.</p>
-      <h3>3.1 Key Components</h3>
-      <ol>
-        <li>Process Automation – Implement advanced automation tools to reduce manual effort and minimize errors.</li>
-      </ol>
-      <pre><code>function calculateROI(cost, benefit, time) {
-  const totalBenefit = benefit * time;
-  const roi = ((totalBenefit - cost) / cost) * 100;
-  return roi.toFixed(2) + '%';
-}</code></pre>
+      <h2>1. Plain text:</h2>
+      <p>Hello it’s the boss testing</p>
+      <h2>2. Bold:</h2>
+      <p>This word is <strong>bold</strong> and should stay <strong>bold</strong> only for that word.</p>
+      <h2>3. Italic:</h2>
+      <p>This word is <em>italic</em> and should stay <em>italic</em> only for that word.</p>
+      <h2>4. Underline:</h2>
+      <p>This word is <u>underlined</u> and should stay <u>underlined</u> only for that word.</p>
+      <h2>5. Mixed formatting:</h2>
+      <p>The <strong>quick</strong> brown <em>fox</em> jumps <u>over</u> the lazy dog.</p>
+      <h2>6. Nested formatting:</h2>
+      <p><strong>This is bold and <em>nested italic</em> inside bold text.</strong></p>
+      <h2>7. Character-level formatting:</h2>
+      <p>H<strong>e</strong><em>l</em><u>l</u>o</p>
+      <h2>8. Case Change Test:</h2>
+      <p>Hello it’s the boss testing</p>
+      <p><strong>Hello it’s the boss testing</strong></p>
+      <p><em>Hello it’s the boss testing</em></p>
+      <p><u>Hello it’s the boss testing</u></p>
+      <p>H<strong>e</strong><em>l</em><u>l</u>o</p>
     `,
     onSelectionUpdate: ({ editor }) => {
       const textStyle = editor.getAttributes('textStyle') || {}

@@ -83,15 +83,32 @@ function ChangeCaseDropdown(){
 
   const applyCase = (type: 'lower' | 'upper' | 'capitalize') => {
     if (!editor) return
-    const { from, to } = editor.state.selection
+    const { state, view } = editor
+    const { from, to } = state.selection
     if (from === to) return
-    const text = editor.state.doc.textBetween(from, to, ' ')
-    let newText = text
-    if (type === 'lower') newText = text.toLowerCase()
-    else if (type === 'upper') newText = text.toUpperCase()
-    else if (type === 'capitalize') newText = text.replace(/\b\w/g, c => c.toUpperCase())
+
+    const tr = state.tr
+    const textNodes: Array<{pos: number, node: any}> = []
     
-    editor.chain().focus().insertContentAt({from, to}, newText).run()
+    state.doc.nodesBetween(from, to, (node, pos) => {
+      if (node.isText) textNodes.push({ pos, node })
+    })
+
+    for (let i = textNodes.length - 1; i >= 0; i--) {
+      const { pos, node } = textNodes[i]
+      const start = Math.max(from, pos)
+      const end = Math.min(to, pos + node.nodeSize)
+      const text = node.text?.slice(start - pos, end - pos) || ''
+      
+      let newText = text
+      if (type === 'lower') newText = text.toLowerCase()
+      else if (type === 'upper') newText = text.toUpperCase()
+      else if (type === 'capitalize') newText = text.replace(/\b\w/g, c => c.toUpperCase())
+      
+      tr.replaceWith(start, end, state.schema.text(newText, node.marks))
+    }
+    
+    view.dispatch(tr)
     setOpen(false)
   }
 
