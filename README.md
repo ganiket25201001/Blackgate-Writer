@@ -100,29 +100,6 @@ README.md                 # This file
 | **Ctrl+X** | Cut | **Ctrl+J** | Justify |
 | **Ctrl+V** | Paste | - | - |
 
-```text
-# Keyboard Shortcuts (copy/paste friendly)
-Ctrl+N: New Document
-Ctrl+O: Open Document
-Ctrl+S: Save
-Ctrl+Shift+S: Save As
-Ctrl+Z: Undo
-Ctrl+Y: Redo
-Ctrl+A: Select All
-Ctrl+C: Copy
-Ctrl+X: Cut
-Ctrl+V: Paste
-Ctrl+B: Bold
-Ctrl+I: Italic
-Ctrl+U: Underline
-Tab: Indent
-Shift+Tab: Decrease Indent
-Ctrl+E: Center Align
-Ctrl+R: Right Align
-Ctrl+L: Left Align
-Ctrl+J: Justify
-```
-
 ## 📚 Main Features Implemented
 
 ✅ Rich text editor with Tiptap v2  
@@ -133,11 +110,15 @@ Ctrl+J: Justify
 ✅ Left sidebar with Pages and Outline navigation  
 ✅ Image insertion with base64 encoding  
 ✅ Table creation and editing  
-✅ Document formatting (fonts, colors, alignment, lists)  
-✅ Keyboard shortcuts  
-✅ Status bar (page count, word count, zoom)  
-✅ Tauri integration for file I/O  
-✅ Responsive window layout  
+✅ Document formatting (fonts, colors, alignment, lists)
+✅ Local OS System Fonts Integration
+✅ Advanced Change Case Formatting
+✅ Keyboard shortcuts
+✅ Status bar (page count, word count, zoom)
+✅ Tauri integration for file I/O & Window Close intercept
+✅ Responsive window layout
+✅ Visual Pagination & Word-style Margin Ruler
+✅ Live real-time Document Thumbnails
 
 ## 🧪 Testing
 
@@ -206,7 +187,7 @@ npm run tauri:build
 - [ ] Header/Footer implementation (placeholder)
 - [ ] Advanced table properties (resize handles, cell styling)
 - [ ] Symbol picker modal
-- [ ] Page thumbnail visual rendering enhancement
+- [x] Page thumbnail visual rendering enhancement (Live DOM Scaling)
 - [ ] Accessibility improvements (ARIA labels, keyboard nav)
 - [ ] Cloud sync (OneDrive, Google Drive)
 - [ ] Collaboration features

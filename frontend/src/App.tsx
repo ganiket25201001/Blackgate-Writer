@@ -11,6 +11,8 @@ import FindReplace from './components/FindReplace'
 import { RibbonProvider } from './components/ribbon/ribbonState'
 import EditorProvider from './components/editor/EditorProvider'
 import EditorCanvas from './components/editor/EditorContent'
+import ClosePrompt from './components/ClosePrompt'
+import { appWindow } from '@tauri-apps/api/window'
 import { useDoc } from './contexts/documentContext'
 import { SettingsProvider } from './contexts/settingsContext'
 import { useRecentFiles } from './hooks/useRecentFiles'
@@ -45,6 +47,20 @@ function AppContent(){
   const [showSettings, setShowSettings] = useState(false)
   const [showTemplates, setShowTemplates] = useState(false)
   const [showFind, setShowFind] = useState(false)
+  const [showClosePrompt, setShowClosePrompt] = useState(false)
+
+  // Intercept window close
+  useEffect(() => {
+    const unlistenPromise = appWindow.onCloseRequested(async (event) => {
+      if (!state.saved) {
+        event.preventDefault()
+        setShowClosePrompt(true)
+      }
+    })
+    return () => {
+      unlistenPromise.then(unlisten => unlisten())
+    }
+  }, [state.saved])
 
   // Track recent files on save
   useEffect(() => {
@@ -109,6 +125,32 @@ function AppContent(){
         if (showSettings) setShowSettings(false)
         if (showTemplates) setShowTemplates(false)
       }
+      // F7 = Spell Check (placeholder)
+      if (key === 'f7'){
+        e.preventDefault()
+        // Would open review tab / spellcheck sidepane
+      }
+
+      // Additional Word Shortcuts that rely on the editor but can be intercepted globally if needed:
+      // Ctrl+Shift+> / Ctrl+Shift+< (Font Size increase/decrease)
+      if (ctrl && shift && (key === '>' || key === '.')){
+        e.preventDefault()
+        document.querySelector<HTMLButtonElement>('button[title="Increase Font Size (Ctrl+Shift+>)"]')?.click()
+      }
+      if (ctrl && shift && (key === '<' || key === ',')){
+        e.preventDefault()
+        document.querySelector<HTMLButtonElement>('button[title="Decrease Font Size (Ctrl+Shift+<)"]')?.click()
+      }
+      
+      // Ctrl+] / Ctrl+[ (Font Size +/- 1pt)
+      if (ctrl && !shift && key === ']'){
+        e.preventDefault()
+        document.querySelector<HTMLButtonElement>('button[title="Increase Font Size (Ctrl+Shift+>)"]')?.click()
+      }
+      if (ctrl && !shift && key === '['){
+        e.preventDefault()
+        document.querySelector<HTMLButtonElement>('button[title="Decrease Font Size (Ctrl+Shift+<)"]')?.click()
+      }
     }
     window.addEventListener('keydown', handler)
     return ()=> window.removeEventListener('keydown', handler)
@@ -118,16 +160,16 @@ function AppContent(){
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg)', color: 'var(--text-primary)' }}>
       <TitleBar onShowAbout={()=>setShowAbout(true)} onShowSettings={()=>setShowSettings(true)} />
       <RibbonProvider>
-        <Ribbon />
-        <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-          <LeftSidebar />
-          <EditorProvider>
+        <EditorProvider>
+          <Ribbon />
+          <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+            <LeftSidebar />
             <EditorCanvas />
-          </EditorProvider>
-          <RightSidebar />
-        </div>
+            <RightSidebar />
+          </div>
+          <StatusBar />
+        </EditorProvider>
       </RibbonProvider>
-      <StatusBar />
       <ErrorDisplay error={error} onDismiss={()=>setError('')} />
       
       {showAbout && (
@@ -145,6 +187,19 @@ function AppContent(){
       )}
       {showFind && (
         <FindReplace onClose={()=>setShowFind(false)} />
+      )}
+      
+      {showClosePrompt && (
+        <ClosePrompt 
+          onSave={async () => {
+            await saveDoc()
+            appWindow.close()
+          }}
+          onDontSave={() => {
+            appWindow.close()
+          }}
+          onCancel={() => setShowClosePrompt(false)}
+        />
       )}
     </div>
   )

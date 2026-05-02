@@ -31,6 +31,7 @@ const DocContext = createContext<{
   openDoc: ()=>Promise<void>
   saveDoc: ()=>Promise<void>
   saveAs: ()=>Promise<void>
+  quickSaveToDocuments: (newTitle: string)=>Promise<void>
   exportPdf: ()=>Promise<void>
   exportDocx: ()=>Promise<void>
 }>({} as any)
@@ -109,6 +110,34 @@ export function DocProvider({ children }: { children: React.ReactNode }){
     }
   }
 
+  async function quickSaveToDocuments(newTitle: string){
+    try {
+      const { documentDir, join } = await import('@tauri-apps/api/path')
+      const { exists, createDir } = await import('@tauri-apps/api/fs')
+      
+      const docsPath = await documentDir()
+      const folderPath = await join(docsPath, 'Blackgate Writer')
+      
+      const folderExists = await exists(folderPath)
+      if (!folderExists) {
+        await createDir(folderPath, { recursive: true })
+      }
+      
+      const safeTitle = newTitle.replace(/[\\/:*?"<>|]/g, '') || 'Untitled'
+      const filePath = await join(folderPath, `${safeTitle}.bgdoc`)
+      
+      const obj = { title: safeTitle, content: state.content, savedAt: new Date().toISOString() }
+      await invoke('write_file', { path: filePath, content_base64: btoa(JSON.stringify(obj)) })
+      
+      dispatch({ type: 'set', payload: { title: safeTitle, path: filePath, saved: true, lastSaved: new Date() } })
+      setError(undefined)
+    } catch(e) {
+      const msg = `Failed to quick save: ${e instanceof Error ? e.message : String(e)}`
+      setError(msg)
+      console.error(msg)
+    }
+  }
+
   async function exportPdf(){
     try{
       // @ts-ignore
@@ -148,7 +177,7 @@ export function DocProvider({ children }: { children: React.ReactNode }){
   }
 
   return (
-    <DocContext.Provider value={{ state, dispatch, error, setError, newDoc, openDoc, saveDoc, saveAs, exportPdf, exportDocx }}>
+    <DocContext.Provider value={{ state, dispatch, error, setError, newDoc, openDoc, saveDoc, saveAs, quickSaveToDocuments, exportPdf, exportDocx }}>
       {children}
     </DocContext.Provider>
   )

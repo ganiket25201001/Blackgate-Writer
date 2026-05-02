@@ -22,16 +22,11 @@ export default function RightSidebar(){
 
   useEffect(()=>{
     const el = document.querySelector('.editor-page') as HTMLElement | null
-    if (el) el.style.background = state.pageColor
     if (el){
-      el.style.paddingTop = state.pageMargins.top + 'px'
-      el.style.paddingRight = state.pageMargins.right + 'px'
-      el.style.paddingBottom = state.pageMargins.bottom + 'px'
-      el.style.paddingLeft = state.pageMargins.left + 'px'
       if (state.showLineNumbers) el.classList.add('show-line-numbers')
       else el.classList.remove('show-line-numbers')
     }
-  },[state.pageColor, state.pageMargins, state.showLineNumbers])
+  },[state.showLineNumbers])
 
   return (
     <aside className={`right-sidebar ${rightOpen ? 'open' : 'collapsed'}`}>

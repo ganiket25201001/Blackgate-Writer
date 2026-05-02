@@ -8,27 +8,14 @@ export default function LeftSidebar(){
   const [pages, setPages] = useState<Array<{label:string; pos:number}>>([])
   const [headings, setHeadings] = useState<Array<{text:string; level:number; pos:number}>>([])
 
-  // compute pages by approximate character chunks
+  // compute pages by actual DOM height
   useEffect(()=>{
     if (!editor) return
-    const charsPerPage = 1400
-    const parts: Array<{label:string; pos:number}> = []
-    let acc = ''
-    let docPos = 0
-    editor.state.doc.descendants((node, offset) => {
-      const nodeText = node.textContent || ''
-      if (acc.length + nodeText.length > charsPerPage){
-        parts.push({ label: acc.slice(0,80).replace(/\n/g,' ')+ (acc.length>80? '...':''), pos: docPos })
-        acc = nodeText
-        docPos = offset
-      } else {
-        acc += nodeText
-      }
-      return true
-    })
-    if (acc.length) parts.push({ label: acc.slice(0,80).replace(/\n/g,' ')+ (acc.length>80? '...':''), pos: docPos })
-    setPages(parts)
-  },[editor?.getHTML(), editor])
+    const el = document.querySelector('.editor-page')
+    const h = el ? el.clientHeight : 1123
+    const count = Math.max(1, Math.ceil(h / 1143))
+    setPages(Array.from({length: count}).map((_, i) => ({ label: `Page ${i+1}`, pos: 0 })))
+  },[editor?.state.doc.textContent, editor])
 
   // compute headings outline
   useEffect(()=>{
@@ -75,11 +62,29 @@ export default function LeftSidebar(){
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
                 {pages.length ? pages.map((p,i)=> (
                   <div key={i} onClick={()=>goTo(p.pos)} className="page-thumb">
-                    <div className="page-thumb-card">
-                      {/* Simulated text lines */}
-                      {Array.from({length: 12 + Math.floor(Math.random()*6)}).map((_,li)=> (
-                        <div key={li} className="page-thumb-line" style={{width: `${30 + Math.floor(Math.random()*65)}%`}} />
-                      ))}
+                    <div className="page-thumb-card" style={{ padding: 0, position: 'relative' }}>
+                      <div style={{
+                        position: 'absolute',
+                        top: 0, left: 0,
+                        width: 794,
+                        height: 1123,
+                        transform: 'scale(0.1385)',
+                        transformOrigin: 'top left',
+                        background: 'white',
+                        padding: '48px',
+                        pointerEvents: 'none',
+                        color: 'black',
+                        fontSize: '14px',
+                        overflow: 'hidden'
+                      }}>
+                        <div 
+                          className="tiptap" 
+                          dangerouslySetInnerHTML={{__html: editor?.getHTML() || ''}} 
+                          style={{
+                            transform: `translateY(-${i * 1143}px)`
+                          }}
+                        />
+                      </div>
                     </div>
                     <div className="page-thumb-number">{i+1}</div>
                   </div>
