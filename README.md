@@ -100,6 +100,29 @@ README.md                 # This file
 | **Ctrl+X** | Cut | **Ctrl+J** | Justify |
 | **Ctrl+V** | Paste | - | - |
 
+```text
+# Keyboard Shortcuts (copy/paste friendly)
+Ctrl+N: New Document
+Ctrl+O: Open Document
+Ctrl+S: Save
+Ctrl+Shift+S: Save As
+Ctrl+Z: Undo
+Ctrl+Y: Redo
+Ctrl+A: Select All
+Ctrl+C: Copy
+Ctrl+X: Cut
+Ctrl+V: Paste
+Ctrl+B: Bold
+Ctrl+I: Italic
+Ctrl+U: Underline
+Tab: Indent
+Shift+Tab: Decrease Indent
+Ctrl+E: Center Align
+Ctrl+R: Right Align
+Ctrl+L: Left Align
+Ctrl+J: Justify
+```
+
 ## 📚 Main Features Implemented
 
 ✅ Rich text editor with Tiptap v2  
