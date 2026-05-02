@@ -1,10 +1,25 @@
 import React from 'react'
 
-export default function NumberInput({ value, onChange, label, min, max }: { value: number; onChange: (v:number)=>void; label?: string; min?: number; max?: number }){
+export default function NumberInput({ value, onChange, label, min, max, unit }: { value: number; onChange: (v:number)=>void; label?: string; min?: number; max?: number; unit?: string }){
   return (
-    <div className="flex items-center gap-2">
-      {label && <div className="text-xs text-text-secondary w-24">{label}</div>}
-      <input type="number" value={value} onChange={e=>onChange(Number(e.target.value))} className="w-20 bg-white/5 rounded px-2 py-1 text-sm" min={min} max={max} />
+    <div className="num-input-wrap">
+      {label && <div className="num-input-label">{label}</div>}
+      <div className="num-input">
+        <input 
+          type="text" 
+          value={unit ? `${value} ${unit}` : value} 
+          onChange={e=>{
+            const num = parseFloat(e.target.value.replace(/[^0-9.-]/g,''))
+            if (!isNaN(num)) onChange(num)
+          }} 
+          min={min} 
+          max={max} 
+        />
+        <div className="spinners">
+          <button onClick={()=>onChange(Math.min(max ?? Infinity, value+1))} title="Increase">▲</button>
+          <button onClick={()=>onChange(Math.max(min ?? -Infinity, value-1))} title="Decrease">▼</button>
+        </div>
+      </div>
     </div>
   )
 }

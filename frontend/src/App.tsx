@@ -20,17 +20,23 @@ import { useSettings } from './contexts/settingsContext'
 function ErrorDisplay({ error, onDismiss }: { error?: string; onDismiss: ()=>void }){
   if (!error) return null
   return (
-    <div className="fixed bottom-6 right-6 bg-red-900/80 text-red-100 px-4 py-3 rounded border border-red-700 max-w-sm shadow-lg z-40 backdrop-blur">
-      <div className="flex justify-between items-start gap-4">
-        <p className="text-sm">{error}</p>
-        <button onClick={onDismiss} className="text-red-100 hover:text-red-50 font-bold">✕</button>
-      </div>
+    <div style={{
+      position: 'fixed', bottom: 24, right: 24, 
+      background: 'rgba(127,29,29,0.9)', color: '#fecaca',
+      padding: '12px 16px', borderRadius: 8, 
+      border: '1px solid rgba(239,68,68,0.3)',
+      maxWidth: 360, boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+      zIndex: 40, backdropFilter: 'blur(8px)',
+      display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16
+    }}>
+      <p style={{ fontSize: 13, margin: 0 }}>{error}</p>
+      <button onClick={onDismiss} style={{ color: '#fecaca', fontWeight: 700, fontSize: 16 }}>✕</button>
     </div>
   )
 }
 
 function AppContent(){
-  const { state, saveDoc } = useDoc()
+  const { state, saveDoc, newDoc, openDoc, saveAs, exportPdf } = useDoc()
   const { error, setError } = useDoc()
   const { addRecentFile } = useRecentFiles()
   const { settings } = useSettings()
@@ -47,33 +53,77 @@ function AppContent(){
     }
   }, [state.saved, state.path, state.title, addRecentFile])
 
+  // Comprehensive keyboard shortcuts (Word-compatible)
   useEffect(()=>{
     function handler(e: KeyboardEvent){
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){
+      const ctrl = e.ctrlKey || e.metaKey
+      const shift = e.shiftKey
+      const key = e.key.toLowerCase()
+
+      // Ctrl+S = Save
+      if (ctrl && !shift && key === 's'){
         e.preventDefault()
-        saveDoc().catch(err=>console.error('Save shortcut error:', err))
+        saveDoc().catch(err=>console.error('Save error:', err))
+        return
       }
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f'){
+      // Ctrl+Shift+S = Save As
+      if (ctrl && shift && key === 's'){
+        e.preventDefault()
+        saveAs().catch(err=>console.error('SaveAs error:', err))
+        return
+      }
+      // Ctrl+N = New document
+      if (ctrl && !shift && key === 'n'){
+        e.preventDefault()
+        newDoc()
+        return
+      }
+      // Ctrl+O = Open document
+      if (ctrl && !shift && key === 'o'){
+        e.preventDefault()
+        openDoc().catch(err=>console.error('Open error:', err))
+        return
+      }
+      // Ctrl+P = Export PDF
+      if (ctrl && !shift && key === 'p'){
+        e.preventDefault()
+        exportPdf().catch(err=>console.error('Export PDF error:', err))
+        return
+      }
+      // Ctrl+F = Find
+      if (ctrl && !shift && key === 'f'){
         e.preventDefault()
         setShowFind(true)
+        return
+      }
+      // Ctrl+H = Replace
+      if (ctrl && !shift && key === 'h'){
+        e.preventDefault()
+        setShowFind(true)
+        return
+      }
+      // Escape = Close dialogs
+      if (key === 'escape'){
+        if (showFind) setShowFind(false)
+        if (showAbout) setShowAbout(false)
+        if (showSettings) setShowSettings(false)
+        if (showTemplates) setShowTemplates(false)
       }
     }
     window.addEventListener('keydown', handler)
     return ()=> window.removeEventListener('keydown', handler)
-  },[saveDoc])
+  },[saveDoc, saveAs, newDoc, openDoc, exportPdf, showFind, showAbout, showSettings, showTemplates])
 
   return (
-    <div className="h-screen flex flex-col bg-bg text-text-primary">
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg)', color: 'var(--text-primary)' }}>
       <TitleBar onShowAbout={()=>setShowAbout(true)} onShowSettings={()=>setShowSettings(true)} />
       <RibbonProvider>
         <Ribbon />
-        <div className="flex flex-1 overflow-hidden">
+        <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
           <LeftSidebar />
-          <main className="flex-1 p-6 overflow-auto flex justify-center items-start">
-            <EditorProvider>
-              <EditorCanvas />
-            </EditorProvider>
-          </main>
+          <EditorProvider>
+            <EditorCanvas />
+          </EditorProvider>
           <RightSidebar />
         </div>
       </RibbonProvider>

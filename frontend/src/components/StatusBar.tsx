@@ -23,7 +23,6 @@ export default function StatusBar(){
       const text = editor.getText() || ''
       const words = text.trim().split(/\s+/).filter(Boolean).length
       setWordCount(words)
-      // estimate pages
       const charsPerPage = 1400
       const pages = Math.max(1, Math.ceil(text.length / charsPerPage))
       setPageCount(pages)
@@ -35,33 +34,41 @@ export default function StatusBar(){
   },[editor])
 
   return (
-    <div className="h-8 bg-[#1f1f1f] border-t border-black/20 flex items-center justify-between px-4 text-xs text-text-secondary select-none">
-      <div className="flex items-center gap-6">
-        <span>Page {doc.state ? Math.min(pageCount, pageCount) : 1} of {pageCount}</span>
+    <div className="status-bar">
+      <div className="status-bar-left">
+        <span>Page {Math.min(pageCount, pageCount)} of {pageCount}</span>
         <span>{wordCount.toLocaleString()} words</span>
-        <button className="flex items-center gap-2 hover:bg-white/5 px-2 py-1 rounded">
-          <FileText size={14} className="opacity-70"/>
+        <button style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <FileText size={12} style={{ opacity: 0.7 }}/>
           English (United States)
         </button>
-        {settings.enableAutoSave && (
-          <span className={`transition ${isSaving ? 'text-yellow-400 animate-pulse' : 'text-text-secondary/50'}`}>
-            {isSaving ? 'Saving...' : ''}
-          </span>
+        {settings.enableAutoSave && isSaving && (
+          <span style={{ color: '#fbbf24', animation: 'pulse 1.5s infinite' }}>Saving...</span>
         )}
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-1 border-r border-white/10 pr-4">
-          <button className="p-1.5 hover:bg-white/10 rounded" title="Read Mode"><BookOpen size={14} /></button>
-          <button className="p-1.5 hover:bg-white/10 rounded bg-white/10 text-blue-400" title="Print Layout"><FileText size={14} /></button>
-          <button className="p-1.5 hover:bg-white/10 rounded" title="Web Layout"><Globe size={14} /></button>
+      <div className="status-bar-right">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <button title="Read Mode"><BookOpen size={13} /></button>
+          <button className="view-active" title="Print Layout"><FileText size={13} /></button>
+          <button title="Web Layout"><Globe size={13} /></button>
         </div>
+        
+        <div className="view-separator" />
 
-        <div className="flex items-center gap-2">
-          <button onClick={()=>setZoom(Math.max(0.5, zoom-0.1))} className="px-2 py-1 hover:bg-white/10 rounded font-bold">−</button>
-          <input type="range" min="0.5" max="2" step="0.1" value={zoom} onChange={e=>setZoom(Number(e.target.value))} className="w-24 accent-blue-500 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer" />
-          <button onClick={()=>setZoom(Math.min(2, zoom+0.1))} className="px-2 py-1 hover:bg-white/10 rounded font-bold">+</button>
-          <div className="w-10 text-right">{Math.round(zoom*100)}%</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <button onClick={()=>setZoom(Math.max(0.5, Math.round((zoom-0.1)*10)/10))} style={{ fontWeight: 700, fontSize: 14 }}>−</button>
+          <input 
+            type="range" 
+            min="0.5" 
+            max="2" 
+            step="0.1" 
+            value={zoom} 
+            onChange={e=>setZoom(Number(e.target.value))} 
+            className="zoom-slider"
+          />
+          <button onClick={()=>setZoom(Math.min(2, Math.round((zoom+0.1)*10)/10))} style={{ fontWeight: 700, fontSize: 14 }}>+</button>
+          <span style={{ width: 36, textAlign: 'right' }}>{Math.round(zoom*100)}%</span>
         </div>
       </div>
     </div>

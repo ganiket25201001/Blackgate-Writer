@@ -7,6 +7,10 @@ type Store = {
   toggleLeft: ()=>void
   leftTab: 'pages'|'outline'
   setLeftTab: (t:'pages'|'outline')=>void
+  rightOpen: boolean
+  toggleRight: ()=>void
+  showFormatMarks: boolean
+  toggleFormatMarks: ()=>void
 }
 
 export const useStore = create<Store>((set)=>({
@@ -15,5 +19,9 @@ export const useStore = create<Store>((set)=>({
   leftOpen: true,
   toggleLeft: ()=>set(s=>({ leftOpen: !s.leftOpen })),
   leftTab: 'pages',
-  setLeftTab: (t)=>set({ leftTab: t })
+  setLeftTab: (t)=>set({ leftTab: t }),
+  rightOpen: true,
+  toggleRight: ()=>set(s=>({ rightOpen: !s.rightOpen })),
+  showFormatMarks: false,
+  toggleFormatMarks: ()=>set(s=>({ showFormatMarks: !s.showFormatMarks })),
 }))
