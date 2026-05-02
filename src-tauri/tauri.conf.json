@@ -27,8 +27,7 @@
       "shell":{"all":false,"open":true},
       "dialog":{"all":true},
       "fs":{"all":true},
-      "window":{"all":true},
-      "api":{"all":false}
+      "window":{"all":true}
     },
     "bundle":{
       "active":true,
