@@ -37,7 +37,7 @@
       "identifier":"com.blackgate.writer",
       "targets":["exe","msi","appimage","dmg"],
       "createUpdaterArtifacts":false,
-      "icon":["../assets/logo"]
+      "icon":["../frontend/src/assets/logo.png"]
     }
   }
 }
