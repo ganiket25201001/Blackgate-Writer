@@ -93,21 +93,21 @@ function HomeRibbon(){
         {/* Styles */}
         <RibbonGroup title="Styles">
           <div className="flex items-center gap-1 overflow-hidden max-w-xs">
-            <button className={`border ${state.style==='Normal' ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 hover:border-white/30'} rounded p-2 flex flex-col items-center min-w-16`} onClick={()=>dispatch({type:'set', payload:{style: 'Normal'}})}>
-              <span className="text-base text-text-primary">AaBbCcDd</span>
-              <span className="text-xs mt-1">Normal</span>
+            <button className={`border ${state.style==='Normal' ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 hover:border-white/30'} rounded p-2 flex flex-col items-center min-w-[4rem]`} onClick={()=>dispatch({type:'set', payload:{style: 'Normal'}})}>
+              <span className="text-sm text-text-primary truncate">AaBbCc</span>
+              <span className="text-[10px] mt-1 text-text-secondary">Normal</span>
             </button>
-            <button className={`border ${state.style==='Heading 1' ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 hover:border-white/30'} rounded p-2 flex flex-col items-center min-w-16`} onClick={()=>dispatch({type:'set', payload:{style: 'Heading 1'}})}>
-              <span className="text-lg font-bold text-text-primary">AaBbCcDd</span>
-              <span className="text-xs mt-1">Heading 1</span>
+            <button className={`border ${state.style==='Heading 1' ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 hover:border-white/30'} rounded p-2 flex flex-col items-center min-w-[4rem]`} onClick={()=>dispatch({type:'set', payload:{style: 'Heading 1'}})}>
+              <span className="text-base font-bold text-text-primary truncate">AaBbCc</span>
+              <span className="text-[10px] mt-1 text-text-secondary">Heading 1</span>
             </button>
-            <button className={`border ${state.style==='Heading 2' ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 hover:border-white/30'} rounded p-2 flex flex-col items-center min-w-16`} onClick={()=>dispatch({type:'set', payload:{style: 'Heading 2'}})}>
-              <span className="text-base font-bold text-text-primary">AaBbCcDd</span>
-              <span className="text-xs mt-1">Heading 2</span>
+            <button className={`border ${state.style==='Heading 2' ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 hover:border-white/30'} rounded p-2 flex flex-col items-center min-w-[4rem]`} onClick={()=>dispatch({type:'set', payload:{style: 'Heading 2'}})}>
+              <span className="text-sm font-bold text-text-primary truncate">AaBbCc</span>
+              <span className="text-[10px] mt-1 text-text-secondary">Heading 2</span>
             </button>
-            <button className={`border ${state.style==='Title' ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 hover:border-white/30'} rounded p-2 flex flex-col items-center min-w-16`} onClick={()=>dispatch({type:'set', payload:{style: 'Title'}})}>
-              <span className="text-xl text-text-primary">AaBbC</span>
-              <span className="text-xs mt-1">Title</span>
+            <button className={`border ${state.style==='Title' ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 hover:border-white/30'} rounded p-2 flex flex-col items-center min-w-[4rem]`} onClick={()=>dispatch({type:'set', payload:{style: 'Title'}})}>
+              <span className="text-lg text-text-primary truncate">AaBbC</span>
+              <span className="text-[10px] mt-1 text-text-secondary">Title</span>
             </button>
           </div>
         </RibbonGroup>

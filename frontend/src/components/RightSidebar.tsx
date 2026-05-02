@@ -7,6 +7,7 @@ import Toggle from './sidebar/Toggle'
 import RibbonDropdown from './ribbon/RibbonDropdown'
 import RibbonColorPicker from './ribbon/RibbonColorPicker'
 import RibbonButton from './ribbon/RibbonButton'
+import { AlignLeft, AlignCenter, AlignRight, AlignJustify, List, ListOrdered } from 'lucide-react'
 
 export default function RightSidebar(){
   const { state, dispatch } = useRibbon()
@@ -58,20 +59,20 @@ export default function RightSidebar(){
 
           <SidebarSection title="Paragraph">
             <div className="flex gap-2">
-              <RibbonButton title="Left" active={state.alignment==='left'} onClick={()=>{ if(editor) editor.chain().focus().setTextAlign('left').run(); dispatch({type:'set', payload:{alignment:'left'}})}}>L</RibbonButton>
-              <RibbonButton title="Center" active={state.alignment==='center'} onClick={()=>{ if(editor) editor.chain().focus().setTextAlign('center').run(); dispatch({type:'set', payload:{alignment:'center'}})}}>C</RibbonButton>
-              <RibbonButton title="Right" active={state.alignment==='right'} onClick={()=>{ if(editor) editor.chain().focus().setTextAlign('right').run(); dispatch({type:'set', payload:{alignment:'right'}})}}>R</RibbonButton>
-              <RibbonButton title="Justify" active={state.alignment==='justify'} onClick={()=>{ if(editor) editor.chain().focus().setTextAlign('justify').run(); dispatch({type:'set', payload:{alignment:'justify'}})}}>J</RibbonButton>
+              <RibbonButton title="Left" active={state.alignment==='left'} onClick={()=>{ if(editor) editor.chain().focus().setTextAlign('left').run(); dispatch({type:'set', payload:{alignment:'left'}})}}><AlignLeft size={16} /></RibbonButton>
+              <RibbonButton title="Center" active={state.alignment==='center'} onClick={()=>{ if(editor) editor.chain().focus().setTextAlign('center').run(); dispatch({type:'set', payload:{alignment:'center'}})}}><AlignCenter size={16} /></RibbonButton>
+              <RibbonButton title="Right" active={state.alignment==='right'} onClick={()=>{ if(editor) editor.chain().focus().setTextAlign('right').run(); dispatch({type:'set', payload:{alignment:'right'}})}}><AlignRight size={16} /></RibbonButton>
+              <RibbonButton title="Justify" active={state.alignment==='justify'} onClick={()=>{ if(editor) editor.chain().focus().setTextAlign('justify').run(); dispatch({type:'set', payload:{alignment:'justify'}})}}><AlignJustify size={16} /></RibbonButton>
             </div>
-            <div className="mt-2">
+            <div className="mt-2 mb-3">
               <div className="text-xs text-text-secondary mb-1">Line spacing</div>
-              <input type="range" min="1" max="3" step="0.1" value={state.lineSpacing} onChange={e=>{ const v=Number(e.target.value); dispatch({type:'set', payload:{lineSpacing:v}}); if(editor) editor.chain().focus().setMark('textStyle', { 'line-height': String(v) }).run() }} />
+              <input type="range" min="1" max="3" step="0.1" value={state.lineSpacing} onChange={e=>{ const v=Number(e.target.value); dispatch({type:'set', payload:{lineSpacing:v}}); if(editor) editor.chain().focus().setMark('textStyle', { 'line-height': String(v) }).run() }} className="w-full accent-blue-500" />
             </div>
             <NumberInput value={state.spacingBefore} onChange={(v)=>{ dispatch({type:'set', payload:{spacingBefore:v}}); if (editor) editor.chain().focus().setMark('textStyle', { 'margin-top': v+'px' }).run() }} label="Spacing before" />
             <NumberInput value={state.spacingAfter} onChange={(v)=>{ dispatch({type:'set', payload:{spacingAfter:v}}); if (editor) editor.chain().focus().setMark('textStyle', { 'margin-bottom': v+'px' }).run() }} label="Spacing after" />
             <div className="mt-4 pt-4 border-t border-white/5">
               <div className="text-xs text-text-secondary mb-2">Indentation</div>
-              <div className="flex gap-2">
+              <div className="flex flex-col gap-2">
                 <NumberInput value={state.indentLeft} onChange={(v)=>{ dispatch({type:'set', payload:{indentLeft:v}}); if (editor) editor.chain().focus().setNode('paragraph', { style: `margin-left:${v}px` }).run() }} label="Left" />
                 <NumberInput value={state.indentRight} onChange={(v)=>{ dispatch({type:'set', payload:{indentRight:v}}); if (editor) editor.chain().focus().setNode('paragraph', { style: `margin-right:${v}px` }).run() }} label="Right" />
               </div>
@@ -79,9 +80,9 @@ export default function RightSidebar(){
           </SidebarSection>
 
           <SidebarSection title="Bullets & Numbering">
-            <div className="flex gap-2 mb-2">
-              <RibbonButton title="Bulleted" active={state.list==='bulleted'} onClick={()=>{ if(editor) editor.chain().focus().toggleBulletList().run(); dispatch({type:'set', payload:{list: state.list==='bulleted' ? 'none' : 'bulleted'}})}}>•</RibbonButton>
-              <RibbonButton title="Numbered" active={state.list==='numbered'} onClick={()=>{ if(editor) editor.chain().focus().toggleOrderedList().run(); dispatch({type:'set', payload:{list: state.list==='numbered' ? 'none' : 'numbered'}})}}>1.</RibbonButton>
+            <div className="flex gap-2 mb-2 items-center">
+              <RibbonButton title="Bulleted" active={state.list==='bulleted'} onClick={()=>{ if(editor) editor.chain().focus().toggleBulletList().run(); dispatch({type:'set', payload:{list: state.list==='bulleted' ? 'none' : 'bulleted'}})}}><List size={16} /></RibbonButton>
+              <RibbonButton title="Numbered" active={state.list==='numbered'} onClick={()=>{ if(editor) editor.chain().focus().toggleOrderedList().run(); dispatch({type:'set', payload:{list: state.list==='numbered' ? 'none' : 'numbered'}})}}><ListOrdered size={16} /></RibbonButton>
               <RibbonDropdown value={state.listStyle} options={["disc","circle","square","decimal"]} onSelect={(v)=>dispatch({type:'set', payload:{listStyle: String(v)}})} />
             </div>
           </SidebarSection>
@@ -98,13 +99,13 @@ export default function RightSidebar(){
 
           <SidebarSection title="Page">
             <div className="flex flex-col gap-3">
-              <div>
+              <div className="flex flex-col items-start">
                 <div className="text-xs text-text-secondary mb-1">Page Color</div>
                 <RibbonColorPicker label="" color={state.pageColor} onChange={(c)=>dispatch({type:'set', payload:{pageColor:c}})} />
               </div>
               <div>
                 <div className="text-xs text-text-secondary mb-2">Page Margins</div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-2">
                   <NumberInput value={state.pageMargins.top} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, top:v}}})} label="Top" />
                   <NumberInput value={state.pageMargins.bottom} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, bottom:v}}})} label="Bottom" />
                   <NumberInput value={state.pageMargins.left} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, left:v}}})} label="Left" />
