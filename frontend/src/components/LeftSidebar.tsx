@@ -53,42 +53,60 @@ export default function LeftSidebar(){
   }
 
   return (
-    <aside className={`transition-all duration-300 ${leftOpen ? 'w-64 p-3' : 'w-12 p-2'} bg-panel border-r border-black/20 overflow-auto`}>
-      <div className="flex items-center justify-between mb-2">
-        <div className={`${leftOpen ? 'font-semibold' : 'hidden'}`}>Navigation</div>
-        <div className="flex gap-1">
-          <button onClick={()=>setLeftTab('pages')} className={`px-2 py-1 rounded ${leftTab==='pages' ? 'bg-bg' : 'hover:bg-white/5'}`}>P</button>
-          <button onClick={()=>setLeftTab('outline')} className={`px-2 py-1 rounded ${leftTab==='outline' ? 'bg-bg' : 'hover:bg-white/5'}`}>O</button>
-          <button onClick={toggleLeft} title={leftOpen ? 'Collapse' : 'Expand'} className="px-2 py-1 rounded hover:bg-white/5">{leftOpen? '<':''} </button>
-        </div>
+    <aside className={`transition-all duration-300 ${leftOpen ? 'w-64' : 'w-12'} bg-panel border-r border-black/20 flex flex-col`}>
+      <div className="flex items-center justify-between border-b border-black/10">
+        {leftOpen ? (
+          <div className="flex flex-1 text-sm font-semibold text-text-secondary">
+            <button 
+              onClick={()=>setLeftTab('outline')} 
+              className={`flex-1 py-3 border-b-2 text-center transition-colors ${leftTab==='outline' ? 'border-blue-500 text-text-primary' : 'border-transparent hover:text-text-primary'}`}
+            >
+              Outline
+            </button>
+            <button 
+              onClick={()=>setLeftTab('pages')} 
+              className={`flex-1 py-3 border-b-2 text-center transition-colors ${leftTab==='pages' ? 'border-blue-500 text-text-primary' : 'border-transparent hover:text-text-primary'}`}
+            >
+              Pages
+            </button>
+          </div>
+        ) : (
+          <div className="w-full flex flex-col items-center py-2 gap-2">
+            <button onClick={()=>setLeftTab('outline')} className="px-2 py-1 rounded hover:bg-white/5">O</button>
+            <button onClick={()=>setLeftTab('pages')} className="px-2 py-1 rounded hover:bg-white/5">P</button>
+          </div>
+        )}
+        <button onClick={toggleLeft} title={leftOpen ? 'Collapse' : 'Expand'} className="px-2 py-3 hover:bg-white/5 text-text-secondary hover:text-text-primary">
+          {leftOpen ? '✕' : '›'}
+        </button>
       </div>
 
-      {leftOpen && leftTab === 'pages' && (
-        <div>
-          <div className="text-xs text-text-secondary mb-2">Pages</div>
-          <div className="space-y-3">
+      <div className="flex-1 overflow-auto p-4">
+        {leftOpen && leftTab === 'pages' && (
+          <div className="space-y-6">
             {pages.length ? pages.map((p,i)=> (
-              <div key={i} onClick={()=>goTo(p.pos)} className="bg-white/3 rounded p-2 cursor-pointer hover:bg-white/5">
-                <div className="text-sm font-semibold">Page {i+1}</div>
-                <div className="text-xs text-text-secondary truncate">{p.label}</div>
+              <div key={i} onClick={()=>goTo(p.pos)} className="flex flex-col items-center gap-2 cursor-pointer group">
+                <div className="w-32 h-44 bg-white rounded shadow-sm border border-transparent group-hover:border-blue-500 flex flex-col p-2 overflow-hidden text-[6px] text-black leading-tight opacity-90 group-hover:opacity-100">
+                  {p.label.split(' ').map((word, idx) => (
+                    <div key={idx} className="bg-gray-200 h-1 mb-[1px] rounded-sm w-full" style={{width: `${Math.max(20, Math.random() * 100)}%`}}></div>
+                  ))}
+                </div>
+                <div className="text-xs font-semibold text-text-secondary group-hover:text-blue-500">{i+1}</div>
               </div>
-            )) : <div className="text-sm text-text-secondary">No pages</div>}
+            )) : <div className="text-sm text-text-secondary text-center">No pages</div>}
           </div>
-        </div>
-      )}
+        )}
 
-      {leftOpen && leftTab === 'outline' && (
-        <div>
-          <div className="text-xs text-text-secondary mb-2">Outline</div>
+        {leftOpen && leftTab === 'outline' && (
           <div className="space-y-2">
             {headings.length ? headings.map((h,i)=> (
               <div key={i} onClick={()=>goTo(h.pos)} className="cursor-pointer hover:bg-white/5 rounded p-1">
-                <div className={`text-sm ${h.level===1? 'font-semibold':'text-text-secondary'} ml-${(h.level-1)*2}`}>{h.text}</div>
+                <div className={`text-sm ${h.level===1? 'font-semibold text-text-primary':'text-text-secondary'} ml-${(h.level-1)*2}`}>{h.text}</div>
               </div>
             )) : <div className="text-sm text-text-secondary">No headings</div>}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </aside>
   )
 }

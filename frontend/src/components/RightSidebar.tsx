@@ -69,30 +69,50 @@ export default function RightSidebar(){
             </div>
             <NumberInput value={state.spacingBefore} onChange={(v)=>{ dispatch({type:'set', payload:{spacingBefore:v}}); if (editor) editor.chain().focus().setMark('textStyle', { 'margin-top': v+'px' }).run() }} label="Spacing before" />
             <NumberInput value={state.spacingAfter} onChange={(v)=>{ dispatch({type:'set', payload:{spacingAfter:v}}); if (editor) editor.chain().focus().setMark('textStyle', { 'margin-bottom': v+'px' }).run() }} label="Spacing after" />
-            <NumberInput value={state.indentLeft} onChange={(v)=>{ dispatch({type:'set', payload:{indentLeft:v}}); if (editor) editor.chain().focus().setNode('paragraph', { style: `margin-left:${v}px` }).run() }} label="Indent left" />
-            <NumberInput value={state.indentRight} onChange={(v)=>{ dispatch({type:'set', payload:{indentRight:v}}); if (editor) editor.chain().focus().setNode('paragraph', { style: `margin-right:${v}px` }).run() }} label="Indent right" />
+            <div className="mt-4 pt-4 border-t border-white/5">
+              <div className="text-xs text-text-secondary mb-2">Indentation</div>
+              <div className="flex gap-2">
+                <NumberInput value={state.indentLeft} onChange={(v)=>{ dispatch({type:'set', payload:{indentLeft:v}}); if (editor) editor.chain().focus().setNode('paragraph', { style: `margin-left:${v}px` }).run() }} label="Left" />
+                <NumberInput value={state.indentRight} onChange={(v)=>{ dispatch({type:'set', payload:{indentRight:v}}); if (editor) editor.chain().focus().setNode('paragraph', { style: `margin-right:${v}px` }).run() }} label="Right" />
+              </div>
+            </div>
           </SidebarSection>
 
           <SidebarSection title="Bullets & Numbering">
-            <div className="flex gap-2">
+            <div className="flex gap-2 mb-2">
               <RibbonButton title="Bulleted" active={state.list==='bulleted'} onClick={()=>{ if(editor) editor.chain().focus().toggleBulletList().run(); dispatch({type:'set', payload:{list: state.list==='bulleted' ? 'none' : 'bulleted'}})}}>•</RibbonButton>
               <RibbonButton title="Numbered" active={state.list==='numbered'} onClick={()=>{ if(editor) editor.chain().focus().toggleOrderedList().run(); dispatch({type:'set', payload:{list: state.list==='numbered' ? 'none' : 'numbered'}})}}>1.</RibbonButton>
               <RibbonDropdown value={state.listStyle} options={["disc","circle","square","decimal"]} onSelect={(v)=>dispatch({type:'set', payload:{listStyle: String(v)}})} />
             </div>
           </SidebarSection>
 
-          <div className="mt-6 border-t border-black/10 pt-4">
-            <SidebarSection title="Page">
-              <div className="text-xs text-text-secondary">Page color</div>
-              <RibbonColorPicker label="Page color" color={state.pageColor} onChange={(c)=>dispatch({type:'set', payload:{pageColor:c}})} />
-              <div className="mt-2 text-xs text-text-secondary">Margins (px)</div>
-              <NumberInput value={state.pageMargins.top} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, top:v}}})} label="Top" />
-              <NumberInput value={state.pageMargins.bottom} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, bottom:v}}})} label="Bottom" />
-              <NumberInput value={state.pageMargins.left} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, left:v}}})} label="Left" />
-              <NumberInput value={state.pageMargins.right} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, right:v}}})} label="Right" />
-              <div className="mt-2"><Toggle checked={state.showLineNumbers} onChange={(b)=>dispatch({type:'set', payload:{showLineNumbers: b}})} label="Show line numbers" /></div>
-            </SidebarSection>
-          </div>
+          <SidebarSection title="Code">
+            <div className="flex flex-col gap-3">
+              <div>
+                <div className="text-xs text-text-secondary mb-1">Code Color Theme</div>
+                <RibbonDropdown value="Night Owl" options={["Night Owl","Dracula","GitHub Dark","Monokai"]} onSelect={()=>{}} />
+              </div>
+              <Toggle checked={state.showLineNumbers} onChange={(b)=>dispatch({type:'set', payload:{showLineNumbers: b}})} label="Show Line Numbers" />
+            </div>
+          </SidebarSection>
+
+          <SidebarSection title="Page">
+            <div className="flex flex-col gap-3">
+              <div>
+                <div className="text-xs text-text-secondary mb-1">Page Color</div>
+                <RibbonColorPicker label="" color={state.pageColor} onChange={(c)=>dispatch({type:'set', payload:{pageColor:c}})} />
+              </div>
+              <div>
+                <div className="text-xs text-text-secondary mb-2">Page Margins</div>
+                <div className="grid grid-cols-2 gap-2">
+                  <NumberInput value={state.pageMargins.top} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, top:v}}})} label="Top" />
+                  <NumberInput value={state.pageMargins.bottom} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, bottom:v}}})} label="Bottom" />
+                  <NumberInput value={state.pageMargins.left} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, left:v}}})} label="Left" />
+                  <NumberInput value={state.pageMargins.right} onChange={(v)=>dispatch({type:'set', payload:{pageMargins:{...state.pageMargins, right:v}}})} label="Right" />
+                </div>
+              </div>
+            </div>
+          </SidebarSection>
         </div>
       ) : null}
     </aside>
