@@ -102,7 +102,6 @@ README.md                 # This file
 
 ```text
 # Keyboard Shortcuts (copy/paste friendly)
-
 Ctrl+N: New Document
 Ctrl+O: Open Document
 Ctrl+S: Save
