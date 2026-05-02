@@ -51,8 +51,8 @@ A clean, powerful, and beautiful **Word alternative** built with **Rust** + **Ta
 
 ```bash
 # Clone repository
-git clone https://github.com/blackgateit/writer.git
-cd "BLACKGATE Writer"
+git clone https://github.com/ganiket25201001/Blackgate-Writer.git
+cd "Blackgate-Writer"
 
 # Install dependencies
 cd frontend && npm install && cd ..
