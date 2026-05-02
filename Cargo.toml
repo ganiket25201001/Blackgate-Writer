@@ -1,6 +1,4 @@
-[package]
-name = "blackgate-writer"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+members = ["src-tauri"]
 
-[dependencies]
+# Root workspace manifest. The actual Tauri crate lives in `src-tauri/`.
