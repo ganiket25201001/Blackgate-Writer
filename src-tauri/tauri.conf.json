@@ -32,8 +32,7 @@
     "bundle":{
       "active":true,
       "identifier":"com.blackgate.writer",
-      "targets":["exe","msi","appimage","dmg"],
-      "createUpdaterArtifacts":false,
+      "targets":"all",
       "icon":["../frontend/src/assets/logo.png"]
     }
   }
