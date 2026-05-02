@@ -7,6 +7,7 @@ export interface AppSettings {
   language: 'en' | 'es' | 'fr' | 'de'
   showLineNumbers: boolean
   enableAutoSave: boolean
+  enableSpellCheck?: boolean
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
@@ -16,6 +17,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   language: 'en',
   showLineNumbers: false,
   enableAutoSave: true,
+  enableSpellCheck: true,
 }
 
 const STORAGE_KEY = 'blackgate_app_settings'

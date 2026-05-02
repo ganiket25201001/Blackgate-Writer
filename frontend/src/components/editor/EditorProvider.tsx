@@ -14,9 +14,11 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import { EditorProvider as Provider } from './editorContext'
 import { useRibbon } from '../ribbon/ribbonState'
+import { useSettings } from '../../contexts/settingsContext'
 
 export default function EditorProvider({ children }: { children: React.ReactNode }){
   const { dispatch } = useRibbon()
+  const { settings } = useSettings()
 
   const editor = useEditor({
     extensions: [
@@ -67,9 +69,20 @@ export default function EditorProvider({ children }: { children: React.ReactNode
     }
   })
 
+  // Apply/destroy editor, and sync spellcheck attribute when settings change
   useEffect(()=>{
+    if (!editor) return
+    // set initial spellcheck on the editor's DOM
+    try {
+      if ((editor as any).view?.dom) {
+        ;(editor as any).view.dom.spellcheck = !!settings.enableSpellCheck
+      }
+    } catch (e) {
+      console.error('Failed to set spellcheck on editor DOM:', e)
+    }
+
     return () => { editor?.destroy() }
-  },[editor])
+  },[editor, settings.enableSpellCheck])
 
   return <Provider editor={editor}>{children}</Provider>
 }

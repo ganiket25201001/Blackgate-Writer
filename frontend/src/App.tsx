@@ -7,6 +7,7 @@ import StatusBar from './components/StatusBar'
 import AboutWindow from './components/AboutWindow'
 import SettingsWindow from './components/SettingsWindow'
 import TemplateSelector from './components/TemplateSelector'
+import FindReplace from './components/FindReplace'
 import { RibbonProvider } from './components/ribbon/ribbonState'
 import EditorProvider from './components/editor/EditorProvider'
 import EditorCanvas from './components/editor/EditorContent'
@@ -37,6 +38,7 @@ function AppContent(){
   const [showAbout, setShowAbout] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showTemplates, setShowTemplates] = useState(false)
+  const [showFind, setShowFind] = useState(false)
 
   // Track recent files on save
   useEffect(() => {
@@ -50,6 +52,10 @@ function AppContent(){
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){
         e.preventDefault()
         saveDoc().catch(err=>console.error('Save shortcut error:', err))
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f'){
+        e.preventDefault()
+        setShowFind(true)
       }
     }
     window.addEventListener('keydown', handler)
@@ -86,6 +92,9 @@ function AppContent(){
 
       {showTemplates && (
         <TemplateSelector onClose={()=>setShowTemplates(false)} />
+      )}
+      {showFind && (
+        <FindReplace onClose={()=>setShowFind(false)} />
       )}
     </div>
   )

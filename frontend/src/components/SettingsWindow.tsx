@@ -97,6 +97,15 @@ export default function SettingsWindow({ onClose }: { onClose: () => void }) {
                 className="bg-white/5 border border-white/10 rounded px-3 py-2 w-24 text-sm"
               />
             </div>
+            <label className="flex items-center justify-between">
+              <span className="text-sm">Enable Spell Check</span>
+              <input
+                type="checkbox"
+                checked={!!localSettings.enableSpellCheck}
+                onChange={(e) => setLocalSettings({ ...localSettings, enableSpellCheck: e.target.checked })}
+                className="rounded"
+              />
+            </label>
           </div>
 
           {/* Language */}
