@@ -9,7 +9,7 @@
     "devPath":"http://localhost:5173",
     "distDir":"../frontend/dist"
   },
-  "app":{
+  "tauri":{
     "windows":[{
       "title":"Blackgate Writer",
       "width":1400,
@@ -21,9 +21,7 @@
       "resizable":true,
       "alwaysOnTop":false
     }],
-    "security":{"csp":null}
-  },
-  "tauri":{
+    "security":{"csp":null},
     "allowlist":{
       "all":false,
       "shell":{"all":false,"open":true},
