@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --bg: #0b1220;
+  --panel: #0f1724;
+  --accent: #3b82f6;
+  --muted: #6b7280;
+  --text-primary: #e6eef8;
+  --text-secondary: #9aa6b2;
+}
+
+/* Ensure dark mode by default for UI skeleton */
+html, body, #root { height: 100%; }
+body{
+  @apply bg-bg text-text-primary antialiased font-sans;
+  letter-spacing: 0.3px;
+}
+
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+input, select, textarea {
+  transition: border-color 0.2s ease-in-out;
+}
+
+/* Simple page paper in editor */
+.editor-page{
+  background: white;
+  color: #111827;
+  width: 800px;
+  min-height: 1120px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5);
+  border-radius: 2px;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  line-height: 1.6;
+}
+
+/* UI polish */
+.bg-panel { 
+  box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset;
+  border-color: rgba(255,255,255,0.05);
+}
+.rounded-md { border-radius: 8px }
+.btn { 
+  @apply px-3 py-1 rounded bg-white/5 hover:bg-white/10 text-sm font-medium;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.btn:active { @apply bg-white/15; }
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.show-line-numbers {
+  counter-reset: linenumber;
+}
+.show-line-numbers p {
+  position: relative;
+  padding-left: 2.25rem;
+}
+.show-line-numbers p::before{
+  counter-increment: linenumber;
+  content: counter(linenumber);
+  position: absolute;
+  left: 0.5rem;
+  color: rgba(0,0,0,0.4);
+  font-size: 12px;
+}

@@ -1,0 +1,42 @@
+{
+  "package":{
+    "productName":"Blackgate Writer",
+    "version":"0.1.0"
+  },
+  "build":{
+    "beforeDevCommand":"cd frontend && npm run dev",
+    "beforeBuildCommand":"cd frontend && npm run build",
+    "devPath":"http://localhost:5173",
+    "distDir":"../frontend/dist"
+  },
+  "app":{
+    "windows":[{
+      "title":"Blackgate Writer",
+      "width":1400,
+      "height":900,
+      "minWidth":1000,
+      "minHeight":600,
+      "decorations":false,
+      "fullscreen":false,
+      "resizable":true,
+      "alwaysOnTop":false
+    }],
+    "security":{"csp":null}
+  },
+  "tauri":{
+    "allowlist":{
+      "all":false,
+      "shell":{"all":false,"open":true},
+      "dialog":{"all":true},
+      "fs":{"all":true},
+      "window":{"all":true},
+      "api":{"all":false}
+    },
+    "bundle":{
+      "active":true,
+      "targets":["exe","msi","appimage","dmg"],
+      "createUpdaterArtifacts":false,
+      "icon":["../assets/logo"]
+    }
+  }
+}
